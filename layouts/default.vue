@@ -1,7 +1,9 @@
 <template>
   <div>
-    <TheHeader />
-    <TheSideNav />
+    <TheHeader @sidenavToggle="displaySidenav = !displaySidenav"/>
+    <TheSideNav 
+      :show="displaySidenav"
+      @close="displaySidenav = false"/>
     <nuxt />
   </div>
   
@@ -27,6 +29,11 @@ export default {
   components: {
     TheHeader,
     TheSideNav
+  },
+  data (){
+    return {
+      displaySidenav: false,
+    }
   }
 }
 </script>
