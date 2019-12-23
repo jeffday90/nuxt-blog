@@ -1,5 +1,10 @@
 <template>
-  <nuxt />
+  <div>
+    <TheHeader />
+    <TheSideNav />
+    <nuxt />
+  </div>
+  
 </template>
 
 <style>
@@ -14,5 +19,14 @@ body {
 </style>
 
 <script>
+import TheHeader from '@/components/Navigation/TheHeader';
+import TheSideNav from '@/components/Navigation/TheSideNav';
 
+
+export default {
+  components: {
+    TheHeader,
+    TheSideNav
+  }
+}
 </script>
