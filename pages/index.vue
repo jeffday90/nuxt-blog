@@ -14,19 +14,25 @@ export default {
   components: {
     PostList
   }, 
-  data (){
-    return {
-      loadedPosts: [
-      {
-        id: "1", title: 'first post', previewText: 'this is our first post', 
-        thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
-      }, 
-      {
-        id: "2", title: 'second post', previewText: 'this is our second post', 
-        thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
-      }]
-    }
-  }
+  asyncData (context, callback){
+    setTimeout(() => {
+      callback(null, {
+        loadedPosts: [
+          {
+            id: '1', 
+            title: 'this is a post',
+            previewText: 'preview text for a loaded post',
+            thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
+          }
+        ]
+      });
+    }, 1500)
+  },
+  // data (){
+  //   return {
+  //     loadedPosts: []
+  //   }
+  // },
 }
 </script>
 
