@@ -8,8 +8,9 @@
 import PostList from '@/components/Posts/PostList'
 
 export default {
-  asyncData(context, callback){
-      callback(null, {
+  asyncData(context){
+      return new Promise ((resolve, reject) => {
+        resolve({
         loadedPosts: [
           {
             id: '32423', 
@@ -24,7 +25,11 @@ export default {
             thumbnail: 'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F0%2F9%2F0%2F3%2F21543090-1-eng-GB%2FHUAWEI%20TECH-USA_CHIP-CATCHUP20190704010111116_Data_2048x1152.jpg?source=nar-cms'
           }, 
         ]
-      });
+        });
+      })
+      .then(data => {return data})
+      .catch(err => {context.error(new Error)})
+      
   },
   components: {
     PostList
