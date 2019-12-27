@@ -14,21 +14,11 @@ export default {
   components: {
     PostList
   }, 
-  asyncData (context, callback){
-    console.log(context);
-    setTimeout(() => {
-      callback(null, {
-        loadedPosts: [
-          {
-            id: '1', 
-            title: 'this is a post',
-            previewText: 'preview text for a loaded post',
-            thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
-          }
-        ]
-      });
-    }, 1500)
-  },
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts
+    }
+  }
 }
 </script>
 
