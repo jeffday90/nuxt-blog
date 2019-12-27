@@ -1,28 +1,30 @@
 <template>
     <div class="admin-post-page">
         <section class="update-form">
-            <AdminPostForm :post="loadedPost" />
+            <AdminPostForm
+            :post="loadedPost" />
         </section>
     </div>
 </template>
 
 <script>
-import AdminPostForm from '@/components/Admin/AdminPostForm'
+import AdminPostForm from '@/components/Admin/AdminPostForm';
+import axios from 'axios';
 
 export default {
     layout: 'admin',
     components: {
         AdminPostForm
     },
-    data(){
-        return {
-            loadedPost: {
-                author: 'Jeff',
-                title: 'my awesome post',
-                content: 'super amaszing',
-                thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
-            }
-        }
+    asyncData(context){
+        return axios
+            .get(`https://nuxt-blog-dd6bf.firebaseio.com/posts/${context.params.postId}.json`)
+            .then(res => {
+              return {
+                loadedPost: res.data
+              }
+            })
+            .catch(e => context.error(e))
     }
 }
 </script>
