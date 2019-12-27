@@ -1,4 +1,5 @@
 import Vuex from 'vuex';
+import axios from 'axios';
 
 const createStore = () => {
     return new Vuex.Store({
@@ -18,29 +19,15 @@ const createStore = () => {
 
                 // special method provided automatically which indicates whether the process is on the client
                 // if it is not on the client, then the code should execute
-                if (!process.client) {
-                    console.log(context.req)
-                }
-
-                return new Promise ((resolve, reject) => {
-                    setTimeout(() => {
-                      vuexContext.commit('setPosts', [
-                        {
-                            id: '32423', 
-                            title: 'new post',
-                            previewText: 'preview text for a new post',
-                            thumbnail: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo_RbXp2Yd-pGCDVJPLPdP_VtkZaDNMvXw3a5ZyAm9x5vc9OpZ&s'
-                        }, 
-                        {
-                            id: '2342', 
-                            title: 'newer post',
-                            previewText: 'preview text for a newer post',
-                            thumbnail: 'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fs3-ap-northeast-1.amazonaws.com%2Fpsh-ex-ftnikkei-3937bb4%2Fimages%2F0%2F9%2F0%2F3%2F21543090-1-eng-GB%2FHUAWEI%20TECH-USA_CHIP-CATCHUP20190704010111116_Data_2048x1152.jpg?source=nar-cms'
-                        }, 
-                      ]);
-                      resolve();
-                    }, 1000);
-                  });
+                    return axios.get('https://nuxt-blog-dd6bf.firebaseio.com/posts.json')
+                        .then(res => {
+                            const postsArr = [];
+                            for (const key in res.data) {
+                                postsArr.push({...res.data[key], id: key})
+                            }
+                            vuexContext.commit('setPosts', postsArr)
+                        })
+                        .catch(e => context.error(e))
                 },
             setPosts(vuexContext, posts) {
                 // commit a mutation
