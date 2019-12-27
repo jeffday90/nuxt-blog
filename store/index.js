@@ -10,6 +10,16 @@ const createStore = () => {
             setPosts(state, posts) {
                 state.loadedPosts = posts
             },
+            addPost(state, post){
+                state.loadedPosts.push(post)
+
+            },
+            editPost(state, editedPost ) {
+                const postIndex = state.loadedPosts.findIndex(post => {
+                    post.id === editedPost
+                })
+                state.loadedPosts[postIndex] = editedPost
+            }
         },
         actions: {
             // same context you get in fetch
@@ -32,6 +42,27 @@ const createStore = () => {
             setPosts(vuexContext, posts) {
                 // commit a mutation
                 vuexContext.commit('setPosts', posts)
+            },
+            addPost(vuexContext, post){
+                // access this object from multiple points
+                const createdPost = {
+                    ...post, 
+                    updatedDate: new Date()
+                  }
+                return axios.post('https://nuxt-blog-dd6bf.firebaseio.com/posts.json', createdPost)  
+                    .then(result => {
+                        // commit the add post with the id that is given 
+                        //from firebase, makes sure you don't lose it
+                        vuexContext.commit('addPost', {...createdPost, id: result.data.name});
+                    })
+                    .catch(e => console.log(e))
+            },
+            editPost(vuexContext, editedPost){
+                return axios.put(`https://nuxt-blog-dd6bf.firebaseio.com/posts/${editedPost.id}.json`, editedPost)
+                    .then(res => {
+                        vuexContext.commit('editPost', editedPost)
+                    })
+                    .catch(e => context.error(e))
             }
         },
         getters: {
