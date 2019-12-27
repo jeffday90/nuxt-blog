@@ -44,7 +44,11 @@ export default {
     },
     methods: {
         onSave(){
-            console.log(this.editedPost)
+            // https://nuxt-blog-dd6bf.firebaseio.com/
+            
+            
+            // this.$emit('submit', this.editedPost);
+            this.$emit('submit', this.editedPost);
         },
         onCancel(){
             this.$router.push('/admin')

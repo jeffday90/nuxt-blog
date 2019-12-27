@@ -14,6 +14,14 @@ const createStore = () => {
             // same context you get in fetch
             // initialize the store
             nuxtServerInit (vuexContext, context) {
+                // logically you would think to put the code for server/database access here
+
+                // special method provided automatically which indicates whether the process is on the client
+                // if it is not on the client, then the code should execute
+                if (!process.client) {
+                    console.log(context.req)
+                }
+
                 return new Promise ((resolve, reject) => {
                     setTimeout(() => {
                       vuexContext.commit('setPosts', [
