@@ -6,13 +6,12 @@
 
 <script>
 import PostList from '@/components/Posts/PostList'
-import store from '@/store/index.js'
 
 export default {
   components: {
     PostList
   },
-  asyncData(context){
+  fetch(context){
       return new Promise ((resolve, reject) => {
         setTimeout(() => {
           resolve({
@@ -33,17 +32,21 @@ export default {
           });
         }, 1000);
       })
-      .then(data => {
-          return data
+      .then(data => { 
+          // send to store here
+          context.store.commit('setPosts', data.loadedPosts);
         })
       .catch(err => {
           context.error(new Error)
         })
   },
-  created() {
-      this.$store.dispatch('setPosts', this.loadedPosts)
-  }
-
+  computed: {
+      // constantly checks for updates, without it this component would not grab the data
+      loadedPosts() {
+          console.log(this.$store)
+          return this.$store.getters.loadedPosts
+      }
+   },
 }
 </script>
 
